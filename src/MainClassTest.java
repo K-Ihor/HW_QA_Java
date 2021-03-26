@@ -22,4 +22,11 @@ public class MainClassTest extends MainClass
 
         Assert.assertTrue("getClassNumber !> 45",this.getClassNumber() > 45);
     }
+
+    @Test
+    public void testGetClassString()
+    {
+        String substring = "hello";
+        Assert.assertTrue("Не содержит подстроки - hello ", this.getClass_string().toLowerCase().contains(substring));
+    }
 }
