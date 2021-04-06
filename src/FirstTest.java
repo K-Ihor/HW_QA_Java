@@ -18,11 +18,12 @@ public class FirstTest
 
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("deviceName", "AndroidTestDevice");
-        capabilities.setCapability("platformVersion", "8.0");
+        capabilities.setCapability("platformVersion", "10.0");
         capabilities.setCapability("automationName", "Appium");
-        capabilities.setCapability("appPackage", "org.Wikipedia");
+        capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "/home/ihor/JAVA/HW_QA_Java/apks/org.wikipedia.apk");
+        capabilities.setCapability("avd", "and81");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
