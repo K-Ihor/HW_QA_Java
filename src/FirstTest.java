@@ -63,6 +63,52 @@ public class FirstTest
 
     }
 
+    @Test
+    public void checkAndCancelSearch()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Can`t find search input",
+                5
+        );
+
+        assertElementHesText(
+                By.xpath("//*[contains(@text, 'Java') and contains(@text, 'Java version history')]"),
+                "Java version history",
+                "Title with this text not found",
+                10
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Can`t find 'X to cancel search'",
+                5
+        );
+
+        assertElementHesText(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Search…",
+                "Title with this text not found",
+                5
+        );
+
+    }
+
+
+
+
+
+
+
+
+
     private void assertElementHesText(By by, String text, String error_message, long timeoutInSeconds)
     {
         WebElement waitSearchLine = waitForElementPresent(by, error_message, timeoutInSeconds);
@@ -73,6 +119,13 @@ public class FirstTest
                 text,
                 article_title
         );
+    }
+
+    private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresent(by, error_message, 5);
+        element.sendKeys(value);
+        return element;
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
@@ -93,8 +146,21 @@ public class FirstTest
         element.click();
         return element;
     }
+
+    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.clear();
+        return element;
+    }
 }
 
+
+//    waitForElementAndClear(
+//            By.xpath("//*[contains(@text, 'Search…')]"),
+//                "Can`t find search field",
+//                        5
+//                        );
 
 
 
