@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirstTest
 {
@@ -101,13 +103,42 @@ public class FirstTest
 
     }
 
+    @Test
+    public void checkingWordsInSearch() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                5
+        );
 
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Can`t find search input",
+                10
+        );
 
+        waitForElementPresent(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Element Not Present",
+                5
+        );
 
-
-
-
-
+        List<WebElement> list = driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
+        for (WebElement i : list) {
+            String element = i.getText();
+            String substring = "java";
+            if (element.toLowerCase().contains(substring)) {
+                System.out.println("ok");
+            } else {
+                Assert.assertEquals(
+                        "Article isn`t contains 'java'",
+                        substring,
+                        element
+                );
+            }
+        }
+    }
 
     private void assertElementHesText(By by, String text, String error_message, long timeoutInSeconds)
     {
@@ -154,13 +185,6 @@ public class FirstTest
         return element;
     }
 }
-
-
-//    waitForElementAndClear(
-//            By.xpath("//*[contains(@text, 'Search…')]"),
-//                "Can`t find search field",
-//                        5
-//                        );
 
 
 
