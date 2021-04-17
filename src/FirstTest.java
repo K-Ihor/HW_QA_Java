@@ -1,4 +1,5 @@
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Assert;
@@ -140,6 +141,168 @@ public class FirstTest
         }
     }
 
+
+    @Test
+    public void save_of_2_articles()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                10
+        );
+        String search_line = "Java";
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                search_line,
+                "Can`t find search input",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                "Can`t find search Wikipedia input 'Object-oriented programming language'",
+                10
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Can`t find article title",
+                30
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find button to open article options",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='Add to reading list']"),
+                "Cannot find options Add to reading list",
+                10
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Cannot find Got it tip overlay",
+                10
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "Cannot find input to set of article folder",
+                10
+        );
+
+        String name_of_folder = "Learning programing";
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                name_of_folder,
+                "Cannot put text into articles folder input",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Cannot press OK button",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc=\"Navigate up\"]"),
+                "Cannot find button X",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                10
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                search_line,
+                "Can`t find search input",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='Java']"),
+                "Can`t find search Wikipedia input 'Java'",
+                10
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Can`t find article title Java",
+                30
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find button to open article options",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='Add to reading list']"),
+                "Cannot find options Add to reading list",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='"+ name_of_folder +"']"),
+                "Cannot find save list",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot find button X",
+                10
+        );
+
+        waitForElementAndClick(
+                By.id("My lists"),
+                "Cannot find navigation button to My list",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='"+ name_of_folder +"']"),
+                "Cannot find list",
+                10
+        );
+
+        swipeElementToLeft(
+                By.xpath("//android.widget.TextView[@text='Java']"),
+                "Cannot find save article"
+
+        );
+
+        waitForElementNotPresent(
+                By.xpath("//android.widget.TextView[@text='Java']"),
+                "Cannot delete saved article",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
+                "Can`t find 'Object-oriented programming language' in My list",
+                10
+        );
+
+        assertElementHesText(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Java (programming language)",
+                "We see unexpected 'text'",
+                10
+        );
+    }
+
     private void assertElementHesText(By by, String text, String error_message, long timeoutInSeconds)
     {
         WebElement waitSearchLine = waitForElementPresent(by, error_message, timeoutInSeconds);
@@ -171,6 +334,15 @@ public class FirstTest
         return waitForElementPresent(by, error_message, 5);
     }
 
+    private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(
+                ExpectedConditions.invisibilityOfElementLocated(by)
+        );
+    }
+
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds)
     {
         WebElement element = waitForElementPresent(by, error_message, 5);
@@ -183,6 +355,28 @@ public class FirstTest
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
         return element;
+    }
+
+    protected void swipeElementToLeft(By by, String error_message)
+    {
+        WebElement element = waitForElementPresent(
+                by,
+                error_message,
+                10);
+
+        int left_x = element.getLocation().getX();
+        int right_x = left_x + element.getSize().getWidth();
+        int upper_y = element.getLocation().getY();
+        int lower_y = upper_y + element.getSize().getHeight();
+        int middle_y = (upper_y + lower_y) / 2;
+
+        TouchAction action = new TouchAction(driver);
+        action
+                .press(right_x, middle_y)
+                .waitAction(300)
+                .moveTo(left_x, middle_y)
+                .release()
+                .perform();
     }
 }
 
