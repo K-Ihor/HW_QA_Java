@@ -124,8 +124,8 @@ public class FirstTest
                 5
         );
 
-        List<WebElement> list = driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
-        for (WebElement i : list) {
+        List<WebElement> searchResult = driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
+        for (WebElement i : searchResult) {
             String element = i.getText();
             String substring = "java";
             if (element.toLowerCase().contains(substring)) {
