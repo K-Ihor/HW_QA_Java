@@ -32,6 +32,7 @@ public class FirstTest
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "/home/ihor/JAVA/HW_QA_Java/apks/org.wikipedia.apk");
         capabilities.setCapability("avd", "and81");
+        capabilities.setCapability("orientation", "PORTRAIT");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
