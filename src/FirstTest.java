@@ -303,6 +303,39 @@ public class FirstTest
         );
     }
 
+    @Test
+    public void assertElementPresent()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                10
+        );
+        String search_line = "Java";
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                search_line,
+                "Can`t find search input",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                "Can`t find search Wikipedia input 'Object-oriented programming language'",
+                20
+        );
+
+        String title_article = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Can`t find article title",
+                5
+        );
+
+        Assert.assertTrue("title_article != 'Java (programming language)'", title_article.contains("Java (programming language)"));
+    }
+
     private void assertElementHesText(By by, String text, String error_message, long timeoutInSeconds)
     {
         WebElement waitSearchLine = waitForElementPresent(by, error_message, timeoutInSeconds);
@@ -377,6 +410,12 @@ public class FirstTest
                 .moveTo(left_x, middle_y)
                 .release()
                 .perform();
+    }
+
+    private String waitForElementAndGetAttribute(By by, String attribute, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        return element.getAttribute(attribute);
     }
 }
 
