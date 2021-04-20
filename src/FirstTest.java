@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -337,11 +338,7 @@ public class FirstTest
         Assert.assertTrue("title_article != 'Java (programming language)'", title_article.contains("Java (programming language)"));
     }
 
-
-
-
-
-
+// тест отрабатывает только на 9-ом андроиде
     @Test
     public void testCheckSearchArticleInBackground()
     {
@@ -358,14 +355,20 @@ public class FirstTest
                 15
         );
 
+//        swipeUpToFindElement(
+//                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+//                "Cannot find of the article",
+//                20
+//        );
+
         waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                By.xpath("//*[contains(@text,'Programming language')]"),
                 "Can`t find search Wikipedia input",
                 15
         );
 
         waitForElementPresent(
-                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                By.xpath("//*[contains(@text,'JavaScript')]"),
                 "Can`t find article after returning from background 1",
                 15
         );
@@ -373,18 +376,11 @@ public class FirstTest
         driver.runAppInBackground(5); // поломано , уходит в бэкграунд и тест падает.
 
         waitForElementPresent(
-                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                By.xpath("//*[contains(@text,'JavaScript')]"),
                 "Can`t find article after returning from background 2",
                 15
         );
     }
-
-
-
-
-
-
-
 
     private void assertElementHesText(By by, String text, String error_message, long timeoutInSeconds)
     {
@@ -466,6 +462,41 @@ public class FirstTest
     {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return element.getAttribute(attribute);
+    }
+
+    protected void swipeUp(int timeOfSwipe)
+    {
+        TouchAction action = new TouchAction(driver);
+        Dimension size = driver.manage().window().getSize();
+        int x = size.width / 2;
+        int start_y = (int) (size.height * 0.8);
+        int end_y = (int) (size.height * 0.2);
+
+        action
+                .press(x, start_y)
+                .waitAction(timeOfSwipe)
+                .moveTo(x, end_y)
+                .release()
+                .perform();
+    }
+
+    protected void swipeUpQuick()
+    {
+        swipeUp(200);
+    }
+
+    protected void swipeUpToFindElement(By by, String error_massage, int max_swipes)
+    {
+        int already_swiped = 0;
+        while (driver.findElements(by).size() == 0) {
+            if (already_swiped > max_swipes) {
+                waitForElementPresent(by, "Cannot find element by swiping up. \n" + error_massage, 0);
+                return;
+            }
+
+            swipeUpQuick();
+            ++already_swiped;
+        }
     }
 }
 
