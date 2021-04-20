@@ -337,6 +337,55 @@ public class FirstTest
         Assert.assertTrue("title_article != 'Java (programming language)'", title_article.contains("Java (programming language)"));
     }
 
+
+
+
+
+
+    @Test
+    public void testCheckSearchArticleInBackground()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                10
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Can`t find search input",
+                15
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                "Can`t find search Wikipedia input",
+                15
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                "Can`t find article after returning from background 1",
+                15
+        );
+
+        driver.runAppInBackground(5); // поломано , уходит в бэкграунд и тест падает.
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Object-oriented programming language')]"),
+                "Can`t find article after returning from background 2",
+                15
+        );
+    }
+
+
+
+
+
+
+
+
     private void assertElementHesText(By by, String text, String error_message, long timeoutInSeconds)
     {
         WebElement waitSearchLine = waitForElementPresent(by, error_message, timeoutInSeconds);
