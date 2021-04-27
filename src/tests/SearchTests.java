@@ -36,4 +36,19 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.getAmountOfFoundArticle();
         SearchPageObject.CheckWordInSearchResult("Java");
     }
+
+    @Test
+    public void testCheckSearchResult()
+    {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.waitForSearchResult("Java");
+        int amount_of_search_results = SearchPageObject.getAmountOfFoundArticle();
+        assertTrue("Search result < 3 article", amount_of_search_results >= 3);
+        SearchPageObject.waitForElementByTitleAndDescription("Java", "Island of Indonesia");
+        SearchPageObject.waitForElementByTitleAndDescription("JavaScript", "Programming language");
+        SearchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+
+    }
 }

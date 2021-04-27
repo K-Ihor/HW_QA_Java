@@ -151,4 +151,5 @@ public class MainPageObject {
             ++already_swiped;
         }
     }
+
 }

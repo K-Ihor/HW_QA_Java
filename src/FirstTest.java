@@ -391,3 +391,6 @@ public class FirstTest extends CoreTestCase {
 //        );
 //    }
 }
+
+//*[@text='Object-oriented programming language']/preceding-sibling::*[@text='Java (programming language)']
+

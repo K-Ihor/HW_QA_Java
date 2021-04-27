@@ -16,7 +16,9 @@ public class SearchPageObject extends MainPageObject
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[contains(@text,'{SUBSTRING}')]",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
-            FIND_TEXT_TPL = "//*[contains(@text, '{SUBSTRING}')]";
+            FIND_TEXT_TPL = "//*[contains(@text, '{SUBSTRING}')]",
+            FIND_TITLE_AND_DESCRIPTION = "//*[@text='{DESCRIPTION}']/preceding-sibling::*[@text='{TITLE}']";
+
 
     public SearchPageObject(AppiumDriver driver) // берем драйвер из MainPageObject
     {
@@ -34,6 +36,10 @@ public class SearchPageObject extends MainPageObject
         return FIND_TEXT_TPL.replace("{SUBSTRING}", searchedElementByText);
     }
 
+    private static String getResultByTitleAndDescription(String TITLE, String DESCRIPTION)
+    {
+        return FIND_TITLE_AND_DESCRIPTION.replace("{TITLE}", TITLE).replace("{DESCRIPTION}", DESCRIPTION);
+    }
     // TPL
 
     public void initSearchInput()
@@ -115,6 +121,16 @@ public class SearchPageObject extends MainPageObject
                 );
             }
         }
+    }
+
+    public void waitForElementByTitleAndDescription(String TITLE, String DESCRIPTION)
+    {
+        String findArticle = getResultByTitleAndDescription(TITLE, DESCRIPTION);
+        this.waitForElementPresent(
+                By.xpath(findArticle),
+                "Can`t find Article by TITLE and DESCRIPTION",
+                15
+        );
     }
 
 }
