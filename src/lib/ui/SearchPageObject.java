@@ -123,6 +123,40 @@ public class SearchPageObject extends MainPageObject
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void waitForElementByTitleAndDescription(String TITLE, String DESCRIPTION)
     {
         String findArticle = getResultByTitleAndDescription(TITLE, DESCRIPTION);

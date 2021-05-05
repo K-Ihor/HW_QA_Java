@@ -109,13 +109,13 @@ public class ArticlePageObject extends MainPageObject
         this.waitForElementPresent(
                 By.xpath(ADD_TO_MY_LIST_BUTTON),
                 "Add to reading list BUTTON not present",
-                10
+                15
         );
 
         this.waitForElementAndClick(
                 By.xpath(ADD_TO_MY_LIST_BUTTON),
                 "Cannot find options Add to reading list",
-                10
+                15
         );
 
         this.waitForElementAndClick(
