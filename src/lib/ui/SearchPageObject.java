@@ -14,7 +14,7 @@ public class SearchPageObject extends MainPageObject
             SEARCH_INPUT = "//*[contains(@text, 'Search…')]",
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[contains(@text,'{SUBSTRING}')]",
-            SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
+            SEARCH_RESULT_ELEMENT = "org.wikipedia:id/page_list_item_title", // "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
             FIND_TEXT_TPL = "//*[contains(@text, '{SUBSTRING}')]",
             FIND_TITLE_AND_DESCRIPTION = "//*[@text='{DESCRIPTION}']/preceding-sibling::*[@text='{TITLE}']";
@@ -111,7 +111,8 @@ public class SearchPageObject extends MainPageObject
         List<WebElement> searchResult = driver.findElements(By.id(SEARCH_RESULT_ELEMENT));
         for (WebElement i : searchResult) {
             String element = i.getText();
-            if (element.toLowerCase().contains(substring)) {
+            String t = substring;
+            if (element.toLowerCase().contains(t)) {
                 System.out.println("ok");
             } else {
                 Assert.assertEquals(

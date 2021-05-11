@@ -34,7 +34,7 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.getAmountOfFoundArticle();
-        SearchPageObject.CheckWordInSearchResult("dddd");
+        SearchPageObject.CheckWordInSearchResult("Java");
     }
 
     @Test
