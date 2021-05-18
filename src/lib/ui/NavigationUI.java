@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 public class NavigationUI extends MainPageObject {
 
     private static final String
-            MY_LISTS_LINC = "My lists";
+            MY_LISTS_LINC = "id:My lists";
 
     public NavigationUI(AppiumDriver driver)
     {
@@ -16,7 +16,7 @@ public class NavigationUI extends MainPageObject {
     public void clickMyLists()
     {
         this.waitForElementAndClick(
-                By.id(MY_LISTS_LINC),
+                MY_LISTS_LINC,
                 "Cannot find navigation button to My list",
                 10
         );
