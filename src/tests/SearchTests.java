@@ -2,6 +2,7 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase
@@ -9,7 +10,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCheck_text()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.assertElementHesText("Search…", "Search…");
 
@@ -18,7 +19,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCheckAndCancelSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.assertElementHesText("Java version history", "Java version history");
@@ -30,7 +31,7 @@ public class SearchTests extends CoreTestCase
     public void testCheckingWordsInSearch()
     {
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.getAmountOfFoundArticle();
@@ -40,7 +41,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCheckSearchResult()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForSearchResult("Java");
